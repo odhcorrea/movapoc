@@ -1,9 +1,10 @@
 "use client"
 
 import { UsersIcon, FolderIcon, BellSimpleIcon, SwatchesIcon, GearIcon, ShareNetworkIcon, ChatsCircleIcon } from "@phosphor-icons/react"
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar"
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, useSidebar } from "./ui/sidebar"
 import Link from "next/link"
 import Image from "next/image"
+import OnboardingCard from "./OnboardingCard"
 
 const items = [
   {
@@ -47,10 +48,15 @@ const itemsFooter = [
 ]
 
 const AppSidebar = () => {
+  const { state } = useSidebar()
+
   return (
-    <Sidebar variant="inset" className="p-3">
+    <Sidebar variant="inset" className="p-3" collapsible="icon">
       <SidebarHeader className="mb-3">
-        <Image src={"/logo-mova.svg"} alt="logo Mova" width={73} height={14} className=""/>
+        {state === "collapsed"
+          ? <Image src={"/logo-icon.svg"} alt="logo Mova" width={32} height={16} className=""/>
+          : <Image src={"/logo-mova.svg"} alt="logo Mova" width={73} height={14} className=""/>
+        }
       </SidebarHeader>
 
       <SidebarContent>
@@ -74,6 +80,7 @@ const AppSidebar = () => {
       <SidebarFooter>
         <SidebarGroup>
           <SidebarGroupContent>
+            <OnboardingCard />
             {itemsFooter.map(itemFooter => (
               <SidebarMenuItem key={itemFooter.title}>
                 <SidebarMenuButton asChild>
